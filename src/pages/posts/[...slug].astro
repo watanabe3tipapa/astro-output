@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import 'github-markdown-css/github-markdown-light.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BlogLayout title={post.data.title} description={post.data.description}>
+  <main style="max-width: 900px; width: 100%; padding: 2rem 1rem;">
+    <article class="markdown-body">
+      <Content />
+    </article>
+  </main>
+</BlogLayout>

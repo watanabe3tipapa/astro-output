@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+const posts = await getCollection('posts');
+posts.sort((a, b) => {
+  const dateA = a.data.pubDate ?? new Date(0);
+  const dateB = b.data.pubDate ?? new Date(0);
+  return dateB.getTime() - dateA.getTime();
+});
+---
+
+<BlogLayout title="記事一覧">
+  <main style="max-width: 800px; width: 100%; padding: 2rem 1rem;">
+    <h1>記事一覧</h1>
+    <ul style="list-style: none; padding: 0;">
+      {
+        posts.map((post) => (
+          <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #e1e4e8; padding-bottom: 1rem;">
+            <a href={`${import.meta.env.BASE_URL}posts/${post.id}/`} style="font-size: 1.2rem; font-weight: 600; color: #0969da; text-decoration: none;">
+              {post.data.title}
+            </a>
+            <p style="margin: 0.25rem 0 0; color: #656d76; font-size: 0.875rem;">
+              {post.data.description}
+            </p>
+            {post.data.pubDate && (
+              <time style="color: #8b949e; font-size: 0.8rem;">
+                {post.data.pubDate.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</BlogLayout>
