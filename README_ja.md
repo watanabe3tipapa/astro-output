@@ -1,4 +1,5 @@
-[![Astro Output](https://via.placeholder.com/150x50?text=Astro+Output)](https://github.com/watanabe3tipapa/astro-output)
+[![Astro](https://img.shields.io/badge/Astro-6.3-BC52EE?logo=astro)](https://astro.build)
+[![GitHub](https://img.shields.io/badge/GitHub-astro--output-181717?logo=github)](https://github.com/watanabe3tipapa/astro-output)
 
 <!-- badges -->
 [![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output.svg)](LICENSE)
