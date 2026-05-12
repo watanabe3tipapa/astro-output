@@ -2,7 +2,11 @@
 
 <!-- badges -->
 [![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output.svg)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/watanabe3tipapa/astro-output.svg)](https://github.com/watanabe3tipapa/astro-output/releases)
+[![Last Commit](https://img.shields.io/github/last-commit/watanabe3tipapa/astro-output/main.svg)](https://github.com/watanabe3tipapa/astro-output/commits/main)
+[![Tests](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml/badge.svg)](https://github.com/watanabe3tipapa/astro-output/actions)
+[![Node](https://img.shields.io/badge/Node-22.12%2B-339933)](https://nodejs.org)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Maintenance](https://img.shields.io/badge/Maintenance-Active-brightgreen.svg)](https://github.com/watanabe3tipapa/astro-output)
 
 [English](README.md) | [日本語](README_ja.md)
 
@@ -54,7 +58,7 @@ A static blog site built with Astro that renders Markdown files into GitHub READ
 astro-output/
 ├── .github/
 │   ├── workflows/
-│   │   ├── deploy.yml          # GitHub Pages deploy (planned)
+│   │   ├── deploy.yml          # GitHub Pages deploy
 │   │   └── test.yml            # Build test on push/PR
 │   ├── ISSUE_TEMPLATE/
 │   │   ├── bug_report.md
@@ -132,7 +136,7 @@ pubDate: 2026-01-01
 
 ## Deployment
 
-### GitHub Pages (planned)
+### GitHub Pages
 
 1. Push changes to the `main` branch
 2. GitHub Actions automatically builds and deploys via `.github/workflows/deploy.yml`
