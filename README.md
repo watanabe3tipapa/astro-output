@@ -144,6 +144,7 @@ astro-output/
 
 | Slug | Article | Topics |
 | --- | --- | --- |
+| [`astro-vs-quarto-2026`](https://watanabe3tipapa.github.io/astro-output/posts/astro-vs-quarto-2026/) | Astro vs Quarto (2026 edition) | Astro, Quarto, data analysis, technical publishing |
 | [`astro-7-2-incremental-builds`](https://watanabe3tipapa.github.io/astro-output/posts/astro-7-2-incremental-builds/) | Astro 7.2 incremental static builds | Astro, Content Collections, GitHub Actions |
 | [`astro`](https://watanabe3tipapa.github.io/astro-output/posts/astro/) | Astro 6.0 release | Astro, Cloudflare, CSP |
 | [`zed`](https://watanabe3tipapa.github.io/astro-output/posts/zed/) | Zed Editor 1.0 release | Rust, GPUI, AI agents |
