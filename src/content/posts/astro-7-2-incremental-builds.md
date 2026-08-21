@@ -92,9 +92,9 @@ GitHub Actionsでは、次のように `actions/cache` を追加できます。�
   uses: actions/cache@v4
   with:
     path: node_modules/.astro
-    key: ${{ runner.os }}-astro-${{ hashFiles('package-lock.json') }}
+    key: ${{ runner.os }}-node-22-astro-${{ hashFiles('package-lock.json') }}
     restore-keys: |
-      ${{ runner.os }}-astro-
+      ${{ runner.os }}-node-22-astro-
 
 - name: Build
   run: npm run build
@@ -108,10 +108,10 @@ GitHub Actionsでは、次のように `actions/cache` を追加できます。�
 
 | 確認事項 | 推奨する対応 |
 | --- | --- |
-| Astroのバージョン | 増分ビルドと最適化画像に関する修正を含む Astro 7.2.2 以降を使う。[6] |
-| キャッシュの保存 | CIで `node_modules/.astro/` をビルド前に復元する。[2] |
-| 動的詳細ページ | `getStaticPaths()` の各パスに、コンテンツ更新とともに変わる `cacheKey` を付ける。[2] |
-| 並列ビルド | `build.concurrency` を 1 より大きくしない。[2] |
+| Astroのバージョン | 増分ビルドと最適化画像に関する修正を含む [Astro 7.2.2以降](https://github.com/withastro/astro/releases/tag/astro%407.2.2)を使う。 |
+| キャッシュの保存 | CIで [`node_modules/.astro/` をビルド前に復元する](https://docs.astro.build/en/reference/experimental-flags/incremental-build/#preserving-the-cache-between-builds)。 |
+| 動的詳細ページ | [`getStaticPaths()` の各パスに、コンテンツ更新とともに変わる `cacheKey` を付ける](https://docs.astro.build/en/reference/experimental-flags/incremental-build/#providing-a-cache-key)。 |
+| 並列ビルド | [`build.concurrency` を 1 より大きくしない](https://docs.astro.build/en/reference/experimental-flags/incremental-build/#limitations)。 |
 | 検証方法 | 初回は通常ビルド、以降は記事を1件だけ変更したビルドを実行し、生成結果とログを確認する。 |
 
 ## まとめ
