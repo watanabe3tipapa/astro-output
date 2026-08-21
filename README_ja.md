@@ -1,187 +1,184 @@
-[![Astro](https://img.shields.io/badge/Astro-6.3-BC52EE?logo=astro)](https://astro.build)
-[![GitHub](https://img.shields.io/badge/GitHub-astro--output-181717?logo=github)](https://github.com/watanabe3tipapa/astro-output)
+# Astro Output
 
-<!-- badges -->
-[![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output.svg)](LICENSE)
-[![Last Commit](https://img.shields.io/github/last-commit/watanabe3tipapa/astro-output/main.svg)](https://github.com/watanabe3tipapa/astro-output/commits/main)
-[![Tests](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml/badge.svg)](https://github.com/watanabe3tipapa/astro-output/actions)
-[![Node](https://img.shields.io/badge/Node-22.12%2B-339933)](https://nodejs.org)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Maintenance](https://img.shields.io/badge/Maintenance-Active-brightgreen.svg)](https://github.com/watanabe3tipapa/astro-output)
+[![Astro](https://img.shields.io/badge/Astro-6.3-BC52EE?logo=astro)](https://astro.build)
+[![Node.js](https://img.shields.io/badge/Node.js-22.12%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Build](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml/badge.svg)](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml)
+[![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/watanabe3tipapa/astro-output/main)](https://github.com/watanabe3tipapa/astro-output/commits/main)
+
+**Markdown を、GitHub の README のように読みやすく公開する。**
+
+Astro Output は、Astro の Content Collections で管理する Markdown 記事を、GitHub 風のスタイルで静的サイトとして公開する小さな技術ブログです。記事ファイルを `src/content/posts/` に追加するだけで、型安全なメタデータ検証、記事一覧への掲載、個別ページの静的生成、GitHub Pages への公開までを一貫して行えます。
+
+[![公開サイトを開く](https://img.shields.io/badge/Live%20Site-Open-0969DA?style=for-the-badge)](https://watanabe3tipapa.github.io/astro-output/)
 
 [English](README.md) | [日本語](README_ja.md)
 
-# Astro Output
+## コンセプト
 
-Astro の Content Collections を使って Markdown ファイルを管理し、`github-markdown-css` で GitHub README 風のスタイルで表示する静的ブログサイトです。
+技術記事を公開するために、CMSや複雑なバックエンドが常に必要とは限りません。Astro Output は、Git で変更履歴を管理できる Markdown をコンテンツの唯一の情報源とし、読みやすいHTMLへ変換して公開する構成を示します。
 
-## 技術スタック
+Content Collections と Zod スキーマにより、公開時に必要なタイトルと説明を検証します。`[...slug].astro` が各記事の静的ページを生成し、`github-markdown-css` がコードブロック、表、見出しを含む Markdown を GitHub README に近い見た目で表示します。
 
-| カテゴリ | 技術 | バージョン |
-|----------|------|-----------|
-| フレームワーク | Astro (Content Layer API) | ^6.3.1 |
-| 言語 | TypeScript (strict モード) | - |
-| スキーマバリデーション | Zod (`astro/zod`) | 4.x |
-| Markdown スタイリング | github-markdown-css (ライトテーマ) | ^5.9.0 |
-| ランタイム | Node.js | >=22.12.0 |
-| パッケージマネージャー | npm | - |
-| CI | GitHub Actions | - |
+| 課題 | Astro Output の対応 |
+| --- | --- |
+| 記事を素早く追加したい | `src/content/posts/` に Markdown ファイルを追加するだけで記事を検出する。 |
+| メタデータの不備を避けたい | Content Collections と Zod スキーマでフロントマターを検証する。 |
+| 読みやすい技術記事を表示したい | `github-markdown-light.css` を使い、GitHub 風の Markdown 表示を適用する。 |
+| 運用をシンプルに保ちたい | 静的HTMLを生成し、GitHub Actions から GitHub Pages へ自動デプロイする。 |
 
-## 特徴
+## 主な機能
 
-- **Content Collections** — Astro Content Layer API（`glob()` ローダー + Zod スキーマバリデーション）による型安全な Markdown 管理
-- **GitHub Markdown CSS** — `github-markdown-light.css` + `<article class="markdown-body">` で GitHub README ライクな表示
-- **一覧・詳細ページ** — 新しい順に並べた記事一覧と動的ルーティングによる詳細ページ
-- **自動公開** — `src/content/posts/` に `.md` ファイルを置くだけで自動的に記事として公開
-- **日本語ロケール対応** — HTML `lang="ja"`、日付は `ja-JP` 形式で表示
-- **ホットモジュールリロード** — 開発中のファイル変更を即座に反映
-- **静的サイト生成** — 本番用にプリレンダリングされた HTML を出力
+| 機能 | 内容 |
+| --- | --- |
+| **Content Collections** | `glob()` ローダーが記事Markdownを収集し、Zod スキーマで `title`、`description`、`pubDate` を検証する。 |
+| **記事一覧と詳細ページ** | 公開日が新しい順の記事一覧と、`getStaticPaths()` による個別記事ページを生成する。 |
+| **GitHub 風の表示** | `<article class="markdown-body">` と `github-markdown-light.css` により、表・コード・引用を読みやすく表示する。 |
+| **日本語向けの既定値** | HTML の言語を `ja` に設定し、公開日は `ja-JP` 形式で表示する。 |
+| **継続的な品質確認** | `main` へのプッシュとプルリクエストで、GitHub Actions が本番ビルドを実行する。 |
+| **自動公開** | `main` へのプッシュを契機に、生成した静的サイトを GitHub Pages へデプロイする。 |
 
-## ページ一覧
+## クイックスタート
 
-| ルート | ファイル | 説明 |
-|-------|---------|------|
-| `/` | `src/pages/index.astro` | トップページ — 記事一覧へのリンク |
-| `/posts/` | `src/pages/posts/index.astro` | 記事一覧 — `pubDate` 降順（新しい順） |
-| `/posts/:slug/` | `src/pages/posts/[...slug].astro` | 記事詳細 — GitHub マークダウンスタイル適用 |
+### 前提条件
 
-## サンプル記事
+| ツール | 必要バージョン | 確認コマンド |
+| --- | --- | --- |
+| Node.js | `>=22.12.0` | `node --version` |
+| npm | Node.js に同梱 | `npm --version` |
 
-| Slug | タイトル | 技術分野 |
-|------|---------|---------|
-| `sample` | TypeScript 5.0 の新機能を徹底解説 | TypeScript, Decorators |
-| `astoro` | Astro 6.0 正式リリース | Astro, Cloudflare, CSP |
-| `zed` | Zed Editor 1.0 正式リリース | Rust, GPUI, AI Agent |
-
-## プロジェクト構成
-
-```
-astro-output/
-├── .github/
-│   ├── workflows/
-│   │   ├── deploy.yml          # GitHub Pages デプロイ
-│   │   └── test.yml            # Build テスト (push/PR時)
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   └── feature_request.md
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── FUNDING.yml
-├── public/
-├── src/
-│   ├── content/
-│   │   └── posts/              # Markdown 記事ディレクトリ
-│   │       ├── sample.md
-│   │       ├── astoro.md
-│   │       └── zed.md
-│   ├── content.config.ts       # Content Collections 設定 (glob ローダー + Zod スキーマ)
-│   ├── layouts/
-│   │   └── BlogLayout.astro    # 共通ベースレイアウト (lang="ja", slot)
-│   └── pages/
-│       ├── index.astro         # トップページ
-│       └── posts/
-│           ├── index.astro     # 記事一覧 (getCollection 使用)
-│           └── [...slug].astro # 動的詳細ページ (getStaticPaths 使用)
-├── astro.config.mjs
-├── package.json
-├── tsconfig.json
-├── LICENSE                     # MIT
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── CONTRIBUTING_ja.md
-├── CODE_OF_CONDUCT.md
-├── CODE_OF_CONDUCT_ja.md
-├── SECURITY.md
-├── SECURITY_ja.md
-├── README.md
-├── README_ja.md
-└── DEV-MEMO.md
-```
-
-## インストール
+### 1. リポジトリを取得して依存関係を導入する
 
 ```bash
-# リポジトリをクローン
 git clone https://github.com/watanabe3tipapa/astro-output.git
-
-# ディレクトリに移動
 cd astro-output
-
-# 依存関係をインストール
-npm install
+npm ci
 ```
 
-## 使い方
+### 2. 開発サーバーを起動する
 
 ```bash
-# 開発サーバー起動（ホットリロード対応）
 npm run dev
-# → http://localhost:4321/
+```
 
-# 本番用ビルド
+ブラウザで `http://localhost:4321/` を開きます。記事Markdownを保存すると、開発サーバーが変更を反映します。
+
+### 3. 本番ビルドを確認する
+
+```bash
 npm run build
-# → dist/
-
-# ビルド結果のプレビュー
 npm run preview
 ```
 
-`src/content/posts/` に以下の frontmatter 形式で `.md` ファイルを追加してください：
+`npm run build` は静的ファイルを `dist/` に生成します。`npm run preview` では、本番ビルドの結果をローカルで確認できます。
 
-```yaml
+## 記事を追加して公開する
+
+`src/content/posts/` に任意の名前で `.md` ファイルを作成します。ファイル名は記事URLのslugになります。
+
+```md
 ---
 title: "記事タイトル"
-description: "記事の説明"
-pubDate: 2026-01-01
+description: "記事の概要を簡潔に記述します。"
+pubDate: 2026-08-22
 ---
+
+## はじめに
+
+ここから Markdown で本文を書きます。
 ```
 
-## デプロイ
+記事を追加したら、ローカルビルドで検証してから `main` ブランチへ反映します。
 
-### GitHub Pages
+```bash
+npm run build
+git add src/content/posts/your-article.md
+git commit -m "docs: add article"
+git push origin main
+```
 
-1. `main` ブランチにプッシュ
-2. GitHub Actions が自動でビルド・デプロイ（`.github/workflows/deploy.yml`）
-3. `https://watanabe3tipapa.github.io/astro-output/` で公開
+GitHub Actions がビルドとデプロイを完了すると、記事は [公開サイト](https://watanabe3tipapa.github.io/astro-output/) の記事一覧と `/posts/your-article/` に表示されます。
 
-**前提条件:** リポジトリ Settings > Pages > Source を "GitHub Actions" に設定
+## 技術構成
 
-## 主要な実装詳細
+| 分類 | 技術 | このリポジトリでの役割 |
+| --- | --- | --- |
+| フレームワーク | [Astro](https://astro.build/) `^6.3.1` | 静的サイト生成、ルーティング、Content Collections。 |
+| 言語 | TypeScript | コンテンツ設定とページ実装の型安全性。 |
+| コンテンツ検証 | Zod | 記事フロントマターのスキーマ検証。 |
+| Markdown表示 | [github-markdown-css](https://github.com/sindresorhus/github-markdown-css) | GitHub 風の Markdown スタイル。 |
+| 実行環境 | Node.js `>=22.12.0` | ローカル開発、ビルド、CI。 |
+| CI/CD | GitHub Actions + GitHub Pages | ビルド検証と静的サイトの自動公開。 |
 
-### Content Collections（`src/content.config.ts`）
+## プロジェクト構成
 
-Astro v6 の Content Layer API + `glob()` ローダーを使用。`src/content/posts/` 以下の `.md` ファイルをスキャンし、frontmatter を Zod スキーマでバリデーションします：
+```text
+astro-output/
+├── .github/
+│   └── workflows/
+│       ├── test.yml                    # push / PR 時のビルド検証
+│       └── deploy.yml                  # GitHub Pages へのデプロイ
+├── public/                             # favicon などの静的アセット
+├── src/
+│   ├── content/
+│   │   └── posts/                      # 公開するMarkdown記事
+│   │       ├── astro-7-2-incremental-builds.md
+│   │       ├── astro.md
+│   │       ├── sample.md
+│   │       └── zed.md
+│   ├── content.config.ts               # Content Collections とZodスキーマ
+│   ├── layouts/
+│   │   └── BlogLayout.astro            # HTML共通レイアウト
+│   └── pages/
+│       ├── index.astro                 # トップページ
+│       └── posts/
+│           ├── index.astro             # 記事一覧
+│           └── [...slug].astro         # 記事詳細の動的ルート
+├── astro.config.mjs                    # GitHub Pagesのsite/base設定
+├── package.json
+├── README.md
+└── README_ja.md
+```
 
-- `title`（文字列、必須）
-- `description`（文字列、必須）
-- `pubDate`（日付、任意）
+## 掲載記事
 
-### 記事詳細ページ（`src/pages/posts/[...slug].astro`）
+| Slug | 記事 | 分野 |
+| --- | --- | --- |
+| [`astro-7-2-incremental-builds`](https://watanabe3tipapa.github.io/astro-output/posts/astro-7-2-incremental-builds/) | Astro 7.2 の増分静的ビルドを解説 | Astro、Content Collections、GitHub Actions |
+| [`astro`](https://watanabe3tipapa.github.io/astro-output/posts/astro/) | Astro 6.0 正式リリース | Astro、Cloudflare、CSP |
+| [`zed`](https://watanabe3tipapa.github.io/astro-output/posts/zed/) | Zed Editor 1.0 正式リリース | Rust、GPUI、AIエージェント |
+| [`sample`](https://watanabe3tipapa.github.io/astro-output/posts/sample/) | TypeScript 5.0 の新機能を徹底解説 | TypeScript、Decorators |
 
-- `getStaticPaths()` + `getCollection('posts')` で静的パスを自動生成
-- `render()`（`astro:content`）で Markdown を HTML に変換
-- `github-markdown-light.css` を直接インポート
-- コンテンツを `<article class="markdown-body">` でラップ
+## 品質確認とデプロイ
 
-### 記事一覧ページ（`src/pages/posts/index.astro`）
+ローカルでは、次のコマンドでContent Collectionsの同期を含む本番ビルドを確認できます。
 
-- `getCollection('posts')` で全記事を取得
-- `pubDate` 降順（新しい順）にソート
-- `pubDate` がない記事はエポックにフォールバック
+```bash
+npm run build
+```
+
+| イベント | 実行される処理 | ワークフロー |
+| --- | --- | --- |
+| `main` へのプッシュ | 依存関係の導入と本番ビルド | [`test.yml`](.github/workflows/test.yml) |
+| プルリクエスト | 依存関係の導入と本番ビルド | [`test.yml`](.github/workflows/test.yml) |
+| `main` へのプッシュ | 静的サイトのビルドとGitHub Pagesへのデプロイ | [`deploy.yml`](.github/workflows/deploy.yml) |
+
+GitHub Pages を初めて利用する場合は、リポジトリの **Settings → Pages → Source** で **GitHub Actions** を選択してください。公開先は [`https://watanabe3tipapa.github.io/astro-output/`](https://watanabe3tipapa.github.io/astro-output/) です。
+
+## 関連文書
+
+| 文書 | 内容 |
+| --- | --- |
+| [CHANGELOG.md](CHANGELOG.md) | 変更履歴。 |
+| [CONTRIBUTING_ja.md](CONTRIBUTING_ja.md) | コントリビューションの手順。 |
+| [CODE_OF_CONDUCT_ja.md](CODE_OF_CONDUCT_ja.md) | 行動規範。 |
+| [SECURITY_ja.md](SECURITY_ja.md) | セキュリティ報告方針。 |
+| [DEV-MEMO.md](DEV-MEMO.md) | 開発メモ。 |
 
 ## コントリビューション
 
-コントリビューションは大歓迎です！まず[CONTRIBUTING.md](CONTRIBUTING.md)と[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)をお読みください。
-
-1. リポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. Pull Requestを作成
+改善提案とプルリクエストを歓迎します。まず [CONTRIBUTING_ja.md](CONTRIBUTING_ja.md) と [CODE_OF_CONDUCT_ja.md](CODE_OF_CONDUCT_ja.md) を確認してください。変更後は `npm run build` を実行し、ビルドが成功することを確認したうえでプルリクエストを作成してください。
 
 ## ライセンス
 
-MITライセンス — 詳細は[LICENSE](LICENSE)ファイルを参照してください。
-
-## 連絡先
-
-GitHub: [https://github.com/watanabe3tipapa/astro-output](https://github.com/watanabe3tipapa/astro-output)
+このリポジトリは [MIT License](LICENSE) の下で公開されています。

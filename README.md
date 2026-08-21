@@ -1,187 +1,184 @@
-[![Astro](https://img.shields.io/badge/Astro-6.3-BC52EE?logo=astro)](https://astro.build)
-[![GitHub](https://img.shields.io/badge/GitHub-astro--output-181717?logo=github)](https://github.com/watanabe3tipapa/astro-output)
+# Astro Output
 
-<!-- badges -->
-[![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output.svg)](LICENSE)
-[![Last Commit](https://img.shields.io/github/last-commit/watanabe3tipapa/astro-output/main.svg)](https://github.com/watanabe3tipapa/astro-output/commits/main)
-[![Tests](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml/badge.svg)](https://github.com/watanabe3tipapa/astro-output/actions)
-[![Node](https://img.shields.io/badge/Node-22.12%2B-339933)](https://nodejs.org)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Maintenance](https://img.shields.io/badge/Maintenance-Active-brightgreen.svg)](https://github.com/watanabe3tipapa/astro-output)
+[![Astro](https://img.shields.io/badge/Astro-6.3-BC52EE?logo=astro)](https://astro.build)
+[![Node.js](https://img.shields.io/badge/Node.js-22.12%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Build](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml/badge.svg)](https://github.com/watanabe3tipapa/astro-output/actions/workflows/test.yml)
+[![License](https://img.shields.io/github/license/watanabe3tipapa/astro-output)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/watanabe3tipapa/astro-output/main)](https://github.com/watanabe3tipapa/astro-output/commits/main)
+
+**Publish Markdown as clearly as a GitHub README.**
+
+Astro Output is a small technical blog that turns Markdown articles managed with Astro Content Collections into a static site styled like GitHub. Adding an article to `src/content/posts/` provides one coherent workflow: type-safe metadata validation, inclusion in the article index, static generation of the detail page, and publication on GitHub Pages.
+
+[![Open the Live Site](https://img.shields.io/badge/Live%20Site-Open-0969DA?style=for-the-badge)](https://watanabe3tipapa.github.io/astro-output/)
 
 [English](README.md) | [日本語](README_ja.md)
 
-# Astro Output
+## Concept
 
-A static blog site built with Astro that renders Markdown files into GitHub README-style HTML pages using `github-markdown-css`.
+A CMS or complex backend is not always required to publish technical writing. Astro Output uses Markdown as the single source of content, keeps its history in Git, renders it as readable HTML, and publishes the resulting static site.
 
-## Tech Stack
+Content Collections and a Zod schema validate the title and description required for each article. The `[...slug].astro` route generates each static page, while `github-markdown-css` renders headings, code blocks, tables, and quotations in a GitHub README-like appearance.
 
-| Category | Technology | Version |
-|----------|-----------|---------|
-| Framework | Astro (Content Layer API) | ^6.3.1 |
-| Language | TypeScript (strict mode) | - |
-| Schema Validation | Zod (via `astro/zod`) | 4.x |
-| Markdown Styling | github-markdown-css (light theme) | ^5.9.0 |
-| Runtime | Node.js | >=22.12.0 |
-| Package Manager | npm | - |
-| CI | GitHub Actions | - |
+| Need | How Astro Output addresses it |
+| --- | --- |
+| Add articles quickly | Add a Markdown file under `src/content/posts/`; the post is discovered automatically. |
+| Avoid incomplete metadata | Validate frontmatter through Content Collections and a Zod schema. |
+| Present technical content clearly | Apply `github-markdown-light.css` for GitHub-like Markdown rendering. |
+| Keep operations simple | Generate static HTML and deploy it to GitHub Pages through GitHub Actions. |
 
-## Features
+## Key Features
 
-- **Content Collections** — Type-safe Markdown management using Astro's Content Layer API with `glob()` loader and Zod schema validation
-- **GitHub Markdown CSS** — Renders articles in GitHub README-like style with `github-markdown-light.css` and `<article class="markdown-body">`
-- **List & Detail Pages** — Index page listing all posts (newest first) and dynamic route for individual articles
-- **Auto Discovery** — Place `.md` files in `src/content/posts/` and they automatically become published pages
-- **Japanese Locale** — HTML `lang="ja"`, dates formatted in `ja-JP` locale
-- **Hot Module Replacement** — Instant feedback during development
-- **Static Site Generation** — Pre-rendered HTML output for production
+| Feature | Description |
+| --- | --- |
+| **Content Collections** | A `glob()` loader discovers Markdown posts and a Zod schema validates `title`, `description`, and `pubDate`. |
+| **Article index and detail pages** | Generates an index sorted by publication date and individual article pages with `getStaticPaths()`. |
+| **GitHub-like presentation** | Uses `<article class="markdown-body">` and `github-markdown-light.css` for readable tables, code, and quotations. |
+| **Japanese-friendly defaults** | Sets the document language to `ja` and formats publication dates with the `ja-JP` locale. |
+| **Continuous quality checks** | GitHub Actions runs a production build on pushes to `main` and on pull requests. |
+| **Automatic publication** | A push to `main` builds and deploys the static site to GitHub Pages. |
 
-## Pages
+## Quick Start
 
-| Route | File | Description |
-|-------|------|-------------|
-| `/` | `src/pages/index.astro` | Top page — links to article list |
-| `/posts/` | `src/pages/posts/index.astro` | Article index — sorted by `pubDate` (newest first) |
-| `/posts/:slug/` | `src/pages/posts/[...slug].astro` | Article detail — GitHub markdown style applied |
+### Prerequisites
 
-## Articles
+| Tool | Required version | Check command |
+| --- | --- | --- |
+| Node.js | `>=22.12.0` | `node --version` |
+| npm | Bundled with Node.js | `npm --version` |
 
-| Slug | Title | Tech |
-|------|-------|------|
-| `sample` | TypeScript 5.0 の新機能を徹底解説 | TypeScript, Decorators |
-| `astoro` | Astro 6.0 正式リリース | Astro, Cloudflare, CSP |
-| `zed` | Zed Editor 1.0 正式リリース | Rust, GPUI, AI Agent |
-
-## Project Structure
-
-```
-astro-output/
-├── .github/
-│   ├── workflows/
-│   │   ├── deploy.yml          # GitHub Pages deploy
-│   │   └── test.yml            # Build test on push/PR
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   └── feature_request.md
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── FUNDING.yml
-├── public/
-├── src/
-│   ├── content/
-│   │   └── posts/              # Markdown articles directory
-│   │       ├── sample.md
-│   │       ├── astoro.md
-│   │       └── zed.md
-│   ├── content.config.ts       # Content Collections config (glob loader + Zod schema)
-│   ├── layouts/
-│   │   └── BlogLayout.astro    # Shared base layout (lang="ja", slot)
-│   └── pages/
-│       ├── index.astro         # Top page
-│       └── posts/
-│           ├── index.astro     # Article listing via getCollection()
-│           └── [...slug].astro # Dynamic detail page via getStaticPaths()
-├── astro.config.mjs
-├── package.json
-├── tsconfig.json
-├── LICENSE                     # MIT
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── CONTRIBUTING_ja.md
-├── CODE_OF_CONDUCT.md
-├── CODE_OF_CONDUCT_ja.md
-├── SECURITY.md
-├── SECURITY_ja.md
-├── README.md
-├── README_ja.md
-└── DEV-MEMO.md
-```
-
-## Installation
+### 1. Clone the repository and install dependencies
 
 ```bash
-# Clone the repository
 git clone https://github.com/watanabe3tipapa/astro-output.git
-
-# Navigate to the directory
 cd astro-output
-
-# Install dependencies
-npm install
+npm ci
 ```
 
-## Usage
+### 2. Start the development server
 
 ```bash
-# Start dev server with HMR
 npm run dev
-# → http://localhost:4321/
+```
 
-# Build static site for production
+Open `http://localhost:4321/` in your browser. The development server reflects changes when you save an article Markdown file.
+
+### 3. Verify a production build
+
+```bash
 npm run build
-# → dist/
-
-# Preview production build
 npm run preview
 ```
 
-Add Markdown files to `src/content/posts/` with frontmatter:
+`npm run build` writes static files to `dist/`. Use `npm run preview` to inspect the production build locally.
 
-```yaml
+## Add and Publish an Article
+
+Create a `.md` file with any name under `src/content/posts/`. The file name becomes the slug in the article URL.
+
+```md
 ---
-title: "Article Title"
-description: "Article description"
-pubDate: 2026-01-01
+title: "Article title"
+description: "A concise summary of the article."
+pubDate: 2026-08-22
 ---
+
+## Introduction
+
+Write the article body in Markdown here.
 ```
 
-## Deployment
+After writing the post, verify the local build and then update the `main` branch.
 
-### GitHub Pages
+```bash
+npm run build
+git add src/content/posts/your-article.md
+git commit -m "docs: add article"
+git push origin main
+```
 
-1. Push changes to the `main` branch
-2. GitHub Actions automatically builds and deploys via `.github/workflows/deploy.yml`
-3. Published at `https://watanabe3tipapa.github.io/astro-output/`
+When GitHub Actions finishes building and deploying, the article appears in the [live site](https://watanabe3tipapa.github.io/astro-output/) index and at `/posts/your-article/`.
 
-**Prerequisites:** Go to repository Settings > Pages > Source > "GitHub Actions"
+## Technology Stack
 
-## Key Implementation Details
+| Category | Technology | Role in this repository |
+| --- | --- | --- |
+| Framework | [Astro](https://astro.build/) `^6.3.1` | Static-site generation, routing, and Content Collections. |
+| Language | TypeScript | Type safety for content configuration and pages. |
+| Content validation | Zod | Schema validation for article frontmatter. |
+| Markdown presentation | [github-markdown-css](https://github.com/sindresorhus/github-markdown-css) | GitHub-like Markdown styling. |
+| Runtime | Node.js `>=22.12.0` | Local development, builds, and CI. |
+| CI/CD | GitHub Actions + GitHub Pages | Build verification and automated static-site deployment. |
 
-### Content Collections (`src/content.config.ts`)
+## Project Structure
 
-Uses Astro v6's Content Layer API with `glob()` loader. The `posts` collection scans `src/content/posts/` for `.md` files and validates frontmatter against a Zod schema:
+```text
+astro-output/
+├── .github/
+│   └── workflows/
+│       ├── test.yml                    # Build verification on push / PR
+│       └── deploy.yml                  # GitHub Pages deployment
+├── public/                             # Static assets such as favicons
+├── src/
+│   ├── content/
+│   │   └── posts/                      # Published Markdown articles
+│   │       ├── astro-7-2-incremental-builds.md
+│   │       ├── astro.md
+│   │       ├── sample.md
+│   │       └── zed.md
+│   ├── content.config.ts               # Content Collections and Zod schema
+│   ├── layouts/
+│   │   └── BlogLayout.astro            # Shared HTML layout
+│   └── pages/
+│       ├── index.astro                 # Home page
+│       └── posts/
+│           ├── index.astro             # Article index
+│           └── [...slug].astro         # Dynamic article-detail route
+├── astro.config.mjs                    # GitHub Pages site/base configuration
+├── package.json
+├── README.md
+└── README_ja.md
+```
 
-- `title` (string, required)
-- `description` (string, required)
-- `pubDate` (date, optional)
+## Published Articles
 
-### Article Detail Page (`src/pages/posts/[...slug].astro`)
+| Slug | Article | Topics |
+| --- | --- | --- |
+| [`astro-7-2-incremental-builds`](https://watanabe3tipapa.github.io/astro-output/posts/astro-7-2-incremental-builds/) | Astro 7.2 incremental static builds | Astro, Content Collections, GitHub Actions |
+| [`astro`](https://watanabe3tipapa.github.io/astro-output/posts/astro/) | Astro 6.0 release | Astro, Cloudflare, CSP |
+| [`zed`](https://watanabe3tipapa.github.io/astro-output/posts/zed/) | Zed Editor 1.0 release | Rust, GPUI, AI agents |
+| [`sample`](https://watanabe3tipapa.github.io/astro-output/posts/sample/) | A practical guide to TypeScript 5.0 features | TypeScript, Decorators |
 
-- Generates static paths via `getStaticPaths()` with `getCollection('posts')`
-- Renders markdown content using `render()` from `astro:content`
-- Applies `github-markdown-light.css` via direct import
-- Wraps content in `<article class="markdown-body">`
+## Quality Checks and Deployment
 
-### Article Listing (`src/pages/posts/index.astro`)
+Run the following command locally to verify the production build, including Content Collections synchronization.
 
-- Fetches all posts with `getCollection('posts')`
-- Sorts by `pubDate` descending (newest first)
-- Handles missing `pubDate` gracefully (falls back to epoch)
+```bash
+npm run build
+```
+
+| Event | Executed work | Workflow |
+| --- | --- | --- |
+| Push to `main` | Install dependencies and run a production build | [`test.yml`](.github/workflows/test.yml) |
+| Pull request | Install dependencies and run a production build | [`test.yml`](.github/workflows/test.yml) |
+| Push to `main` | Build the static site and deploy to GitHub Pages | [`deploy.yml`](.github/workflows/deploy.yml) |
+
+When using GitHub Pages for the first time, select **GitHub Actions** under **Settings → Pages → Source**. The site is published at [`https://watanabe3tipapa.github.io/astro-output/`](https://watanabe3tipapa.github.io/astro-output/).
+
+## Documentation
+
+| Document | Description |
+| --- | --- |
+| [CHANGELOG.md](CHANGELOG.md) | Change history. |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution workflow. |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Code of conduct. |
+| [SECURITY.md](SECURITY.md) | Security-reporting policy. |
+| [DEV-MEMO.md](DEV-MEMO.md) | Development notes. |
 
 ## Contributing
 
-Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) guidelines first.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Suggestions and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) first. After making a change, run `npm run build` and confirm that the build passes before opening a pull request.
 
 ## License
 
-MIT License — see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-GitHub: [https://github.com/watanabe3tipapa/astro-output](https://github.com/watanabe3tipapa/astro-output)
+This repository is available under the [MIT License](LICENSE).
